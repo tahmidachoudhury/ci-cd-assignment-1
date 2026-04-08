@@ -3,16 +3,13 @@ name: CI to DockerHub
 on: [push]
 
 jobs: 
-    build:
+    lint-and-test:
         runs-on: ubuntu-latest
 
         steps:
 
         - name: Checkout Code
           uses: actions/checkout@v2
-        
-        - name: Confirm
-          run: echo It worked!
 
         - name: Set up Python
           uses: actions/setup-python@v5
@@ -44,6 +41,9 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
+        - name: Checkout Code
+          uses: actions/checkout@v2
+
         - name: Building Docker image
           run: docker build -t tahmidachoudhury/task-1:latest .
 
@@ -54,4 +54,4 @@ jobs:
           if: success()
           run: echo "Pipeline passed successfully - image built and pushed"
 
-        needs: [build]
+        needs: [lint-and-test]
