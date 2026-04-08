@@ -5,7 +5,9 @@ on: [push]
 jobs: 
     build:
         runs-on: ubuntu-latest
+
         steps:
+
         - name: Checkout Code
           uses: actions/checkout@v2
         
@@ -33,10 +35,23 @@ jobs:
 
     login-and-upload: 
         runs-on: ubuntu-latest
+
         steps:
+
         - name: Login to Docker Hub
           uses: docker/login-action@v4
           with: 
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+        - name: Building Docker image
+          run: docker build -t tahmidachoudhury/task-1:latest .
+
+        - name: Pushing Docker image to Registry
+          run: docker push tahmidachoudhury/task-1:latest
+
+        - name: Notify success
+          if: success()
+          run: echo "Pipeline passed successfully - image built and pushed"
+
         needs: [build]

@@ -1,0 +1,12 @@
+FROM python:3.8-slim 
+
+WORKDIR /app
+
+COPY . .
+
+EXPOSE 5002
+
+CMD [ "python", "main.py" ]
+
+
+
