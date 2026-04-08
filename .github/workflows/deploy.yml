@@ -21,7 +21,7 @@ jobs:
           run: |
             python -m pip install --upgrade pip
             pip install pytest
-            pip install flake 8
+            pip install flake8
 
         - name: Run linting
           run: flake8 .
@@ -31,7 +31,7 @@ jobs:
 
 
 
-    login: 
+    login-and-upload: 
         runs-on: ubuntu-latest
         steps:
         - name: Login to Docker Hub
@@ -39,3 +39,4 @@ jobs:
           with: 
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
+        needs: [build]
